@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.LegacySingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
 import net.minecraftforge.coremod.api.ASMAPI;
 
@@ -23,10 +23,10 @@ public class ModVillage
 
 		JigsawManager.REGISTRY.register(
 				new JigsawPattern(new ResourceLocation("bk:village/common/bee"), new ResourceLocation("empty"),
-						ImmutableList.of(new Pair<>(new SingleJigsawPiece("bk:village/common/animals/bee_1"), 1)),
+						ImmutableList.of(new Pair<>(new LegacySingleJigsawPiece("bk:village/common/animals/bee_1"), 1)),
 						JigsawPattern.PlacementBehaviour.RIGID));
 
-		SingleJigsawPiece piece = new SingleJigsawPiece("bk:village/plains/houses/plains_beekeeper_1", ImmutableList.of(), JigsawPattern.PlacementBehaviour.RIGID);
+		LegacySingleJigsawPiece piece = new LegacySingleJigsawPiece("bk:village/plains/houses/plains_beekeeper_1");
 
 		JigsawPattern pattern = JigsawManager.REGISTRY.get(new ResourceLocation("minecraft:village/plains/houses"));
 		try {

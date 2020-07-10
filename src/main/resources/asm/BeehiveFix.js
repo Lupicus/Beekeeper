@@ -26,7 +26,7 @@ function initializeCoreMod() {
 }
 
 function fixSuperCall(obj) {
-	var call = asmapi.findFirstMethodCall(obj, asmapi.MethodType.SPECIAL, "net/minecraft/block/ContainerBlock", "<init>", "(Lnet/minecraft/block/Block$Properties;)V")
+	var call = asmapi.findFirstMethodCall(obj, asmapi.MethodType.SPECIAL, "net/minecraft/block/ContainerBlock", "<init>", "(Lnet/minecraft/block/AbstractBlock$Properties;)V")
 	if (call != null)
 		call.owner = "com/lupicus/bk/block/RotateContainerBase"
 }

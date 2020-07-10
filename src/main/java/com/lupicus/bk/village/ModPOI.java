@@ -11,6 +11,7 @@ import com.lupicus.bk.Main;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraftforge.coremod.api.ASMAPI;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModPOI
@@ -40,7 +41,8 @@ public class ModPOI
 	static void addStates(PointOfInterestType type)
 	{
 		try {
-			Method method = PointOfInterestType.class.getDeclaredMethod("func_221052_a", PointOfInterestType.class);
+			String name = ASMAPI.mapMethod("func_221052_a"); // registerBlockStates
+			Method method = PointOfInterestType.class.getDeclaredMethod(name, PointOfInterestType.class);
 			method.setAccessible(true);
 			method.invoke(null, type);
 		}
