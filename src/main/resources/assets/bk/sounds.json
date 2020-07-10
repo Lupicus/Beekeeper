@@ -1,0 +1,22 @@
+{
+  "entity.villager.bk.work_beekeeper": {
+    "sounds": [
+      {
+        "name": "block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 1
+      },
+      {
+        "name": "block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "block/beehive/shear",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.beehive.shear"
+  }
+}
