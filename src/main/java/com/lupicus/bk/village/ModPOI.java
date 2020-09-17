@@ -7,16 +7,16 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 
 import com.lupicus.bk.Main;
+import com.lupicus.bk.block.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.coremod.api.ASMAPI;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModPOI
 {
-	public static final PointOfInterestType BEEKEEPER = create("beekeeper", Blocks.HONEYCOMB_BLOCK, 1, 1);
+	public static final PointOfInterestType BEEKEEPER = create("beekeeper", ModBlocks.HONEY_EXTRACTOR, 1, 1);
 
 	private static PointOfInterestType create(String key, Block block, int maxFree, int proximity)
 	{

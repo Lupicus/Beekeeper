@@ -1,5 +1,6 @@
 {
 	"entity.minecraft.villager.bk.beekeeper": "Apicultor",
+	"block.bk.honey_extractor": "Extrator de Mel",
 	"item.bk.bee_pollen": "Pólen de Abelha",
 	"item.bk.royal_jelly": "Geléia Real"
 }
