@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "block/barrel_top",
+        "front": "bk:block/honey_extractor",
+        "side": "block/barrel_side"
+    }
+}
