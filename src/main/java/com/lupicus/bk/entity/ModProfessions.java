@@ -42,16 +42,8 @@ public class ModProfessions
 
 	private static VillagerProfession create(String key, PointOfInterestType type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
 	{
-		VillagerProfession ret = null;
-		try {
-			Constructor<VillagerProfession> ctr = VillagerProfession.class.getDeclaredConstructor(String.class,
-					PointOfInterestType.class, ImmutableSet.class, ImmutableSet.class, SoundEvent.class);
-			ctr.setAccessible(true);
-			ret = ctr.newInstance(key, type, items, blocks, event);
-			ret.setRegistryName(Main.MODID, key);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		VillagerProfession ret = new VillagerProfession(key, type, items, blocks, event);
+		ret.setRegistryName(Main.MODID, key);
 		return ret;
 	}
 

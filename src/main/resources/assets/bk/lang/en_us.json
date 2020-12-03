@@ -1,5 +1,6 @@
 {
 	"entity.minecraft.villager.bk.beekeeper": "Beekeeper",
+	"subtitles.entity.villager.bk.work_beekeeper": "Beekeeper works",
 	"block.bk.honey_extractor": "Honey Extractor",
 	"item.bk.bee_pollen": "Bee Pollen",
 	"item.bk.royal_jelly": "Royal Jelly"

@@ -31,10 +31,11 @@ public class Main
     	FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void setupCommon(final FMLCommonSetupEvent event)
 	{
-		ModVillage.updatePools();
+		net.minecraftforge.fml.DeferredWorkQueue.runLater(() -> ModVillage.updatePools());
 	}
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
