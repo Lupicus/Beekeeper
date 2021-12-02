@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[33,)"
+loaderVersion="[37,)"
 license="MIT License"
 [[mods]]
 modId="bk"
@@ -12,12 +12,12 @@ description='''Beekeeper'''
 [[dependencies.bk]]
     modId="forge"
     mandatory=true
-    versionRange="[33,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.bk]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2,1.17)"
+    versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"

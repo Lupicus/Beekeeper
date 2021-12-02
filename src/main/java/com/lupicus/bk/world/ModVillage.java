@@ -9,15 +9,15 @@ import com.lupicus.bk.Main;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.LegacySingleJigsawPiece;
-import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
-import net.minecraft.world.gen.feature.template.ProcessorLists;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.PlainVillagePools;
+import net.minecraft.data.worldgen.Pools;
+import net.minecraft.data.worldgen.ProcessorLists;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.structures.LegacySinglePoolElement;
+import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool.Projection;
 import net.minecraftforge.coremod.api.ASMAPI;
 
 public class ModVillage
@@ -25,33 +25,33 @@ public class ModVillage
 	@SuppressWarnings({ "unchecked" })
 	public static void updatePools()
 	{
-		PlainsVillagePools.init();
+		PlainVillagePools.bootstrap();
 
-		JigsawPatternRegistry.func_244094_a(
-				new JigsawPattern(new ResourceLocation(Main.MODID + ":village/common/bee"), new ResourceLocation("empty"),
-						ImmutableList.of(Pair.of(JigsawPiece.func_242849_a(Main.MODID + ":village/common/animals/bee_1"), 1)),
-						JigsawPattern.PlacementBehaviour.RIGID));
+		Pools.register(
+				new StructureTemplatePool(new ResourceLocation(Main.MODID + ":village/common/bee"), new ResourceLocation("empty"),
+						ImmutableList.of(Pair.of(StructurePoolElement.legacy(Main.MODID + ":village/common/animals/bee_1"), 1)),
+						StructureTemplatePool.Projection.RIGID));
 
-        JigsawPattern pattern = WorldGenRegistries.field_243656_h.getOrDefault(new ResourceLocation("minecraft:village/plains/houses"));
+        StructureTemplatePool pattern = BuiltinRegistries.TEMPLATE_POOL.get(new ResourceLocation("minecraft:village/plains/houses"));
         if (pattern == null)
         	return;
 
-		Function<PlacementBehaviour, LegacySingleJigsawPiece> funpiece = JigsawPiece.func_242851_a(Main.MODID + ":village/plains/houses/plains_beekeeper_1", ProcessorLists.field_244107_g);
-        JigsawPiece piece = funpiece.apply(PlacementBehaviour.RIGID);
+		Function<Projection, LegacySinglePoolElement> funpiece = StructurePoolElement.legacy(Main.MODID + ":village/plains/houses/plains_beekeeper_1", ProcessorLists.MOSSIFY_10_PERCENT);
+        StructurePoolElement piece = funpiece.apply(Projection.RIGID);
 
 		try {
-			String name = ASMAPI.mapField("field_214953_e"); // jigsawPieces
-			Field field = JigsawPattern.class.getDeclaredField(name);
+			String name = ASMAPI.mapField("f_69250_"); // templates
+			Field field = StructureTemplatePool.class.getDeclaredField(name);
 			field.setAccessible(true);
-			String name2 = ASMAPI.mapField("field_214952_d"); // rawTemplates
-			Field field2 = JigsawPattern.class.getDeclaredField(name2);
+			String name2 = ASMAPI.mapField("f_69249_"); // rawTemplates
+			Field field2 = StructureTemplatePool.class.getDeclaredField(name2);
 			field2.setAccessible(true);
 
-			List<JigsawPiece> list = (List<JigsawPiece>) field.get(pattern);
+			List<StructurePoolElement> list = (List<StructurePoolElement>) field.get(pattern);
 			int n = 4;
 			for (int i = 0; i < n; ++i)
 				list.add(piece);
-			List<Pair<JigsawPiece, Integer>> list2 = (List<Pair<JigsawPiece, Integer>>) field2.get(pattern);
+			List<Pair<StructurePoolElement, Integer>> list2 = (List<Pair<StructurePoolElement, Integer>>) field2.get(pattern);
 			list2.add(Pair.of(piece, n));
 		}
 		catch (Exception e) {

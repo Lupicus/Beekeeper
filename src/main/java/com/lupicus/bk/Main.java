@@ -7,11 +7,11 @@ import com.lupicus.bk.sound.ModSounds;
 import com.lupicus.bk.village.ModPOI;
 import com.lupicus.bk.world.ModVillage;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.item.Item;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.village.PointOfInterestType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -31,11 +31,10 @@ public class Main
     	FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void setupCommon(final FMLCommonSetupEvent event)
 	{
-		net.minecraftforge.fml.DeferredWorkQueue.runLater(() -> ModVillage.updatePools());
+		event.enqueueWork(() -> ModVillage.updatePools());
 	}
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -74,7 +73,7 @@ public class Main
 	    }
 
 	    @SubscribeEvent
-	    public static void onPOIRegistry(final RegistryEvent.Register<PointOfInterestType> event)
+	    public static void onPOIRegistry(final RegistryEvent.Register<PoiType> event)
 	    {
 	    	ModPOI.register(event.getRegistry());
 	    }
