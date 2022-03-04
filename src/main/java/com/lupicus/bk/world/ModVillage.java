@@ -14,10 +14,10 @@ import net.minecraft.data.worldgen.PlainVillagePools;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.structures.LegacySinglePoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool.Projection;
+import net.minecraft.world.level.levelgen.structure.pools.LegacySinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
 import net.minecraftforge.coremod.api.ASMAPI;
 
 public class ModVillage
@@ -32,18 +32,18 @@ public class ModVillage
 						ImmutableList.of(Pair.of(StructurePoolElement.legacy(Main.MODID + ":village/common/animals/bee_1"), 1)),
 						StructureTemplatePool.Projection.RIGID));
 
-        StructureTemplatePool pattern = BuiltinRegistries.TEMPLATE_POOL.get(new ResourceLocation("minecraft:village/plains/houses"));
-        if (pattern == null)
-        	return;
+		StructureTemplatePool pattern = BuiltinRegistries.TEMPLATE_POOL.get(new ResourceLocation("minecraft:village/plains/houses"));
+		if (pattern == null)
+			return;
 
 		Function<Projection, LegacySinglePoolElement> funpiece = StructurePoolElement.legacy(Main.MODID + ":village/plains/houses/plains_beekeeper_1", ProcessorLists.MOSSIFY_10_PERCENT);
-        StructurePoolElement piece = funpiece.apply(Projection.RIGID);
+		StructurePoolElement piece = funpiece.apply(Projection.RIGID);
 
 		try {
-			String name = ASMAPI.mapField("f_69250_"); // templates
+			String name = ASMAPI.mapField("f_210560_"); // templates
 			Field field = StructureTemplatePool.class.getDeclaredField(name);
 			field.setAccessible(true);
-			String name2 = ASMAPI.mapField("f_69249_"); // rawTemplates
+			String name2 = ASMAPI.mapField("f_210559_"); // rawTemplates
 			Field field2 = StructureTemplatePool.class.getDeclaredField(name2);
 			field2.setAccessible(true);
 
