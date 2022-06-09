@@ -3,6 +3,7 @@ package com.lupicus.bk.entity;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -13,6 +14,8 @@ import com.lupicus.bk.village.ModPOI;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
@@ -30,28 +33,32 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModProfessions
 {
-	public static final VillagerProfession BEEKEEPER = create("beekeeper", ModPOI.BEEKEEPER, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
+	public static final VillagerProfession BEEKEEPER = create("beekeeper", ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
 	private static Constructor<?> ctr1 = null;
 	private static Constructor<?> ctr2 = null;
 
 	@SuppressWarnings("unused")
-	private static VillagerProfession create(String key, PoiType type, SoundEvent event)
+	private static VillagerProfession create(String key, ResourceKey<PoiType> type, SoundEvent event)
 	{
 		return create(key, type, ImmutableSet.of(), ImmutableSet.of(), event);
 	}
 
-	private static VillagerProfession create(String key, PoiType type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
+	private static VillagerProfession create(String key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
 	{
-		VillagerProfession ret = new VillagerProfession(key, type, items, blocks, event);
-		ret.setRegistryName(Main.MODID, key);
-		return ret;
+		Predicate<Holder<PoiType>> pred = (h) -> h.is(type);
+		return new VillagerProfession(key, pred, pred, items, blocks, event);
 	}
 
 	public static void register(IForgeRegistry<VillagerProfession> registry)
 	{
-		registry.register(BEEKEEPER);
+		registry.register(makeKey(BEEKEEPER), BEEKEEPER);
 		setupTrades();
 		setupLoot();
+	}
+
+	private static ResourceLocation makeKey(VillagerProfession prof)
+	{
+		return new ResourceLocation(Main.MODID, prof.name());
 	}
 
 	static void setupTrades()

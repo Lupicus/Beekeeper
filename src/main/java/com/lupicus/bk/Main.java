@@ -1,5 +1,7 @@
 package com.lupicus.bk;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.lupicus.bk.block.ModBlocks;
 import com.lupicus.bk.entity.ModProfessions;
 import com.lupicus.bk.item.ModItems;
@@ -7,19 +9,14 @@ import com.lupicus.bk.sound.ModSounds;
 import com.lupicus.bk.village.ModPOI;
 import com.lupicus.bk.world.ModVillage;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 @Mod(Main.MODID)
 public class Main
@@ -41,47 +38,20 @@ public class Main
     public static class ModEvents
     {
 	    @SubscribeEvent
-	    public static void onBlocksRegistry(final RegistryEvent.Register<Block> event)
+	    public static void onRegister(final RegisterEvent event)
 	    {
-	        ModBlocks.register(event.getRegistry());
+	    	@NotNull
+			ResourceKey<? extends Registry<?>> key = event.getRegistryKey();
+	    	if (key.equals(ForgeRegistries.Keys.BLOCKS))
+	    		ModBlocks.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.ITEMS))
+	    		ModItems.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.VILLAGER_PROFESSIONS))
+	    		ModProfessions.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.POI_TYPES))
+	    		ModPOI.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.SOUND_EVENTS))
+	    		ModSounds.register(event.getForgeRegistry());
 	    }
-
-	    @SubscribeEvent
-	    public static void onItemsRegistry(final RegistryEvent.Register<Item> event)
-	    {
-	        ModItems.register(event.getRegistry());
-	    }
-
-        @OnlyIn(Dist.CLIENT)
-        @SubscribeEvent
-        public static void onColorsRegistry(final ColorHandlerEvent.Block event)
-        {
-        	ModBlocks.register(event.getBlockColors());
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        @SubscribeEvent
-        public static void onColorsRegistry(final ColorHandlerEvent.Item event)
-        {
-        	ModItems.register(event.getItemColors());
-        }
-
-	    @SubscribeEvent
-	    public static void onProfRegistry(final RegistryEvent.Register<VillagerProfession> event)
-	    {
-	    	ModProfessions.register(event.getRegistry());
-	    }
-
-	    @SubscribeEvent
-	    public static void onPOIRegistry(final RegistryEvent.Register<PoiType> event)
-	    {
-	    	ModPOI.register(event.getRegistry());
-	    }
-
-        @SubscribeEvent
-        public static void onSoundRegistry(final RegistryEvent.Register<SoundEvent> event)
-        {
-        	ModSounds.register(event.getRegistry());
-        }
     }
 }
