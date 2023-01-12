@@ -11,6 +11,8 @@ import com.lupicus.bk.world.ModVillage;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -31,10 +33,9 @@ public class Main
 	@SubscribeEvent
 	public void setupCommon(final FMLCommonSetupEvent event)
 	{
-		event.enqueueWork(() -> ModVillage.updatePools());
 	}
 
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEvents
     {
 	    @SubscribeEvent
@@ -53,5 +54,21 @@ public class Main
 	    	else if (key.equals(ForgeRegistries.Keys.SOUND_EVENTS))
 	    		ModSounds.register(event.getForgeRegistry());
 	    }
+
+	    @SubscribeEvent
+	    public static void onCreativeTab(CreativeModeTabEvent.BuildContents event)
+	    {
+	    	ModItems.setupTabs(event);
+	    }
     }
+
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+	public static class ForgeEvents
+	{
+		@SubscribeEvent
+		public static void onStart(ServerAboutToStartEvent event)
+		{
+			ModVillage.updatePools(event.getServer());
+		}
+	}
 }

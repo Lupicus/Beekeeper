@@ -13,7 +13,7 @@ public class ModSounds
 	private static SoundEvent create(String key)
 	{
 		ResourceLocation res = new ResourceLocation(Main.MODID, key);
-		SoundEvent ret = new SoundEvent(res);
+		SoundEvent ret = SoundEvent.createVariableRangeEvent(res);
 		return ret;
 	}
 
