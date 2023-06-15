@@ -66,11 +66,11 @@ public class ModProfessions
 		findConstructors();
 		ItemListing[] value;
 		Int2ObjectMap<ItemListing[]> bk = new Int2ObjectArrayMap<>();
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.HONEY_BOTTLE, 4, 8, 2), ItemsForEmeraldsTrade(Items.BEEHIVE, 1, 1, 2)};
+		value = new ItemListing[] {EmeraldForItemsTrade(Items.HONEY_BOTTLE, 4, 8, 2), EmeraldForItemsTrade(Items.OAK_LOG, 12, 8, 2), EmeraldForItemsTrade(Items.BIRCH_LOG, 12, 8, 2), ItemsForEmeraldsTrade(Items.BEEHIVE, 1, 1, 2), ItemsForEmeraldsTrade(Items.TORCH, 1, 16, 1)};
 		bk.put(1, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.SUNFLOWER, 18, 8, 4), ItemsForEmeraldsTrade(Items.SHEARS, 3, 1, 4), ItemsForEmeraldsTrade(Items.RED_TULIP, 1, 10, 6), ItemsForEmeraldsTrade(Items.ORANGE_TULIP, 1, 10, 6)};
+		value = new ItemListing[] {EmeraldForItemsTrade(Items.SUNFLOWER, 18, 8, 4), ItemsForEmeraldsTrade(Items.CAMPFIRE, 2, 1, 5), ItemsForEmeraldsTrade(Items.SHEARS, 3, 1, 4), ItemsForEmeraldsTrade(Items.RED_TULIP, 1, 10, 6), ItemsForEmeraldsTrade(Items.ORANGE_TULIP, 1, 10, 6)};
 		bk.put(2, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.GLASS_BOTTLE, 9, 8, 9), ItemsForEmeraldsTrade(ModItems.BEE_POLLEN, 1, 1, 9), ItemsForEmeraldsTrade(Items.HONEYCOMB, 1, 2, 8)};
+		value = new ItemListing[] {EmeraldForItemsTrade(Items.GLASS_BOTTLE, 9, 8, 9),  EmeraldForItemsTrade(Items.HONEYCOMB, 3, 8, 6), ItemsForEmeraldsTrade(ModItems.BEE_POLLEN, 1, 1, 9)};
 		bk.put(3, value);
 		value = new ItemListing[] {EmeraldForItemsTrade(Items.BLUE_ORCHID, 9, 8, 12), ItemsForEmeraldsTrade(Items.BEE_SPAWN_EGG, 10, 1, 13)};
 		bk.put(4, value);

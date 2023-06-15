@@ -8,7 +8,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModItems
@@ -24,14 +24,14 @@ public class ModItems
 		forgeRegistry.register("honey_extractor", HONEY_EXTRACTOR);
 	}
 
-	public static void setupTabs(CreativeModeTabEvent.BuildContents event)
+	public static void setupTabs(BuildCreativeModeTabContentsEvent event)
 	{
-		if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS)
+		if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
 		{
 			event.accept(BEE_POLLEN);
 			event.accept(ROYAL_JELLY);
 		}
-		else if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+		else if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
 		{
 			event.accept(HONEY_EXTRACTOR);
 		}

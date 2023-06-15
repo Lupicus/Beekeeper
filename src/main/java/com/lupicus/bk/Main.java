@@ -11,7 +11,7 @@ import com.lupicus.bk.world.ModVillage;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -56,7 +56,7 @@ public class Main
 	    }
 
 	    @SubscribeEvent
-	    public static void onCreativeTab(CreativeModeTabEvent.BuildContents event)
+	    public static void onCreativeTab(BuildCreativeModeTabContentsEvent event)
 	    {
 	    	ModItems.setupTabs(event);
 	    }
