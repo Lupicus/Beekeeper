@@ -2,9 +2,10 @@ package com.lupicus.bk.sound;
 
 import com.lupicus.bk.Main;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 
 public class ModSounds
 {
@@ -12,13 +13,13 @@ public class ModSounds
 
 	private static SoundEvent create(String key)
 	{
-		ResourceLocation res = new ResourceLocation(Main.MODID, key);
-		SoundEvent ret = SoundEvent.createVariableRangeEvent(res);
+		Identifier res = new Identifier(Main.MODID, key);
+		SoundEvent ret = SoundEvent.of(res);
 		return ret;
 	}
 
-	public static void register(IForgeRegistry<SoundEvent> registry)
+	public static void register()
 	{
-		registry.register(ENTITY_VILLAGER_WORK_BEEKEEPER.getLocation(), ENTITY_VILLAGER_WORK_BEEKEEPER);
+		Registry.register(Registries.SOUND_EVENT, ENTITY_VILLAGER_WORK_BEEKEEPER.getId(), ENTITY_VILLAGER_WORK_BEEKEEPER);
 	}
 }

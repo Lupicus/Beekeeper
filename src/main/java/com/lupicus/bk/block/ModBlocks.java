@@ -1,17 +1,26 @@
 package com.lupicus.bk.block;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraftforge.registries.IForgeRegistry;
+import com.lupicus.bk.Main;
+
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.MapColor;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Identifier;
 
 public class ModBlocks
 {
-	public static final Block HONEY_EXTRACTOR = new HoneyExtractor(Properties.of().mapColor(MapColor.WOOD).strength(2.5F).sound(SoundType.WOOD));
+	public static final Block HONEY_EXTRACTOR = new HoneyExtractor(FabricBlockSettings.create().mapColor(MapColor.OAK_TAN).strength(2.5F).sounds(BlockSoundGroup.WOOD));
 
-	public static void register(IForgeRegistry<Block> forgeRegistry)
+	public static void register()
 	{
-		forgeRegistry.register("honey_extractor", HONEY_EXTRACTOR);
+		register("honey_extractor", HONEY_EXTRACTOR);
+	}
+
+	private static void register(String key, Block block)
+	{
+		Registry.register(Registries.BLOCK, new Identifier(Main.MODID, key), block);
 	}
 }

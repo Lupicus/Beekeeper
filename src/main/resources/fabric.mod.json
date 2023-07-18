@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "bk",
+  "version": "${version}",
+
+  "name": "Beekeeper",
+  "description": "Beekeeper Mod",
+  "authors": [
+    "Lupicus, MacTso"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/beekeeper"
+  },
+
+  "license": "MIT License",
+  "icon": "logo.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lupicus.bk.Main"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "fabric": "*",
+    "minecraft": "~1.20",
+    "java": ">=17"
+  }
+}

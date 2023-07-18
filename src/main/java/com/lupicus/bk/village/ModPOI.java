@@ -1,28 +1,22 @@
 package com.lupicus.bk.village;
 
-import com.google.common.collect.ImmutableSet;
 import com.lupicus.bk.Main;
 import com.lupicus.bk.block.ModBlocks;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+import net.minecraft.block.Block;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.poi.PointOfInterestType;
 
 public class ModPOI
 {
-	public static final ResourceKey<PoiType> BEEKEEPER_KEY = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(Main.MODID, "beekeeper"));
-	public static final PoiType BEEKEEPER = create(ModBlocks.HONEY_EXTRACTOR, 1, 1);
+	public static final RegistryKey<PointOfInterestType> BEEKEEPER_KEY = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, new Identifier(Main.MODID, "beekeeper"));
+	public static final PointOfInterestType BEEKEEPER = create(BEEKEEPER_KEY, ModBlocks.HONEY_EXTRACTOR, 1, 1);
 
-	private static PoiType create(Block block, int maxFree, int proximity)
+	private static PointOfInterestType create(RegistryKey<PointOfInterestType> key, Block block, int maxFree, int proximity)
 	{
-		return new PoiType(ImmutableSet.copyOf(block.getStateDefinition().getPossibleStates()), maxFree, proximity);
-	}
-
-	public static void register(IForgeRegistry<PoiType> registry)
-	{
-		registry.register(BEEKEEPER_KEY.location(), BEEKEEPER);
+		return PointOfInterestHelper.register(key.getValue(), 1, 1, block);
 	}
 }

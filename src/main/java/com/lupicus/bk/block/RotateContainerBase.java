@@ -1,29 +1,29 @@
 package com.lupicus.bk.block;
 
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 
 /** allows Container blocks to rotate when part of a Structure */
-public abstract class RotateContainerBase extends BaseEntityBlock
+public abstract class RotateContainerBase extends BlockWithEntity
 {
-	public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final DirectionProperty HORIZONTAL_FACING = HorizontalFacingBlock.FACING;
 
-	protected RotateContainerBase(Properties builder) {
+	protected RotateContainerBase(FabricBlockSettings builder) {
 		super(builder);
 	}
 
 	@Override
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
+	public BlockState rotate(BlockState state, BlockRotation rot) {
+		return state.with(HORIZONTAL_FACING, rot.rotate(state.get(HORIZONTAL_FACING)));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING)));
+	public BlockState mirror(BlockState state, BlockMirror mirrorIn) {
+		return state.rotate(mirrorIn.getRotation(state.get(HORIZONTAL_FACING)));
 	}
 }

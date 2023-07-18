@@ -1,8 +1,5 @@
 package com.lupicus.bk.entity;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableSet;
@@ -12,140 +9,87 @@ import com.lupicus.bk.item.ModItems;
 import com.lupicus.bk.sound.ModSounds;
 import com.lupicus.bk.village.ModPOI;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.coremod.api.ASMAPI;
-import net.minecraftforge.registries.IForgeRegistry;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.registry.VillagerInteractionRegistries;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
+import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradeOffers.Factory;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.poi.PointOfInterestType;
 
 public class ModProfessions
 {
 	public static final VillagerProfession BEEKEEPER = create("beekeeper", ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
-	private static Constructor<?> ctr1 = null;
-	private static Constructor<?> ctr2 = null;
 
 	@SuppressWarnings("unused")
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, SoundEvent event)
+	private static VillagerProfession create(String key, RegistryKey<PointOfInterestType> type, SoundEvent event)
 	{
 		return create(key, type, ImmutableSet.of(), ImmutableSet.of(), event);
 	}
 
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
+	private static VillagerProfession create(String key, RegistryKey<PointOfInterestType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
 	{
-		Predicate<Holder<PoiType>> pred = (h) -> h.is(type);
+		Predicate<RegistryEntry<PointOfInterestType>> pred = (h) -> h.matchesKey(type);
 		return new VillagerProfession(key, pred, pred, items, blocks, event);
 	}
 
-	public static void register(IForgeRegistry<VillagerProfession> registry)
+	public static void register()
 	{
-		registry.register(makeKey(BEEKEEPER), BEEKEEPER);
+		Registry.register(Registries.VILLAGER_PROFESSION, makeKey(BEEKEEPER), BEEKEEPER);
 		setupTrades();
 		setupLoot();
 	}
 
-	private static ResourceLocation makeKey(VillagerProfession prof)
+	private static Identifier makeKey(VillagerProfession prof)
 	{
-		return new ResourceLocation(Main.MODID, prof.name());
+		return new Identifier(Main.MODID, prof.id());
 	}
 
 	static void setupTrades()
 	{
-		findConstructors();
-		ItemListing[] value;
-		Int2ObjectMap<ItemListing[]> bk = new Int2ObjectArrayMap<>();
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.HONEY_BOTTLE, 4, 8, 2), EmeraldForItemsTrade(Items.OAK_LOG, 12, 8, 2), EmeraldForItemsTrade(Items.BIRCH_LOG, 12, 8, 2), ItemsForEmeraldsTrade(Items.BEEHIVE, 1, 1, 2), ItemsForEmeraldsTrade(Items.TORCH, 1, 16, 1)};
-		bk.put(1, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.SUNFLOWER, 18, 8, 4), ItemsForEmeraldsTrade(Items.CAMPFIRE, 2, 1, 5), ItemsForEmeraldsTrade(Items.SHEARS, 3, 1, 4), ItemsForEmeraldsTrade(Items.RED_TULIP, 1, 10, 6), ItemsForEmeraldsTrade(Items.ORANGE_TULIP, 1, 10, 6)};
-		bk.put(2, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.GLASS_BOTTLE, 9, 8, 9),  EmeraldForItemsTrade(Items.HONEYCOMB, 3, 8, 6), ItemsForEmeraldsTrade(ModItems.BEE_POLLEN, 1, 1, 9)};
-		bk.put(3, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.BLUE_ORCHID, 9, 8, 12), ItemsForEmeraldsTrade(Items.BEE_SPAWN_EGG, 10, 1, 13)};
-		bk.put(4, value);
-		value = new ItemListing[] {EmeraldForItemsTrade(Items.ALLIUM, 9, 8, 4), ItemsForEmeraldsTrade(ModItems.ROYAL_JELLY, 5, 1, 5)};
-		bk.put(5, value);
-		VillagerTrades.TRADES.put(BEEKEEPER, bk);
-	}
-
-	private static void findConstructors()
-	{
-		for (Class<?> c : VillagerTrades.class.getDeclaredClasses())
-		{
-			if (c.getName().endsWith("$EmeraldForItems"))
-			{
-				try {
-					ctr1 = c.getDeclaredConstructor(ItemLike.class, int.class, int.class, int.class);
-					ctr1.setAccessible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			else if (c.getName().endsWith("$ItemsForEmeralds"))
-			{
-				try {
-					ctr2 = c.getDeclaredConstructor(Item.class, int.class, int.class, int.class);
-					ctr2.setAccessible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		Factory[] value;
+		Int2ObjectMap<Factory[]> map = new Int2ObjectOpenHashMap<>();
+		value = new Factory[] {EmeraldForItemsTrade(Items.HONEY_BOTTLE, 4, 8, 2), EmeraldForItemsTrade(Items.OAK_LOG, 12, 8, 2), EmeraldForItemsTrade(Items.BIRCH_LOG, 12, 8, 2), ItemsForEmeraldsTrade(Items.BEEHIVE, 1, 1, 2), ItemsForEmeraldsTrade(Items.TORCH, 1, 16, 1)};
+		map.put(1, value);
+		value = new Factory[] {EmeraldForItemsTrade(Items.SUNFLOWER, 18, 8, 4), ItemsForEmeraldsTrade(Items.CAMPFIRE, 2, 1, 5), ItemsForEmeraldsTrade(Items.SHEARS, 3, 1, 4), ItemsForEmeraldsTrade(Items.RED_TULIP, 1, 10, 6), ItemsForEmeraldsTrade(Items.ORANGE_TULIP, 1, 10, 6)};
+		map.put(2, value);
+		value = new Factory[] {EmeraldForItemsTrade(Items.GLASS_BOTTLE, 9, 8, 9),  EmeraldForItemsTrade(Items.HONEYCOMB, 3, 8, 6), ItemsForEmeraldsTrade(ModItems.BEE_POLLEN, 1, 1, 9)};
+		map.put(3, value);
+		value = new Factory[] {EmeraldForItemsTrade(Items.BLUE_ORCHID, 9, 8, 12), ItemsForEmeraldsTrade(Items.BEE_SPAWN_EGG, 10, 1, 13)};
+		map.put(4, value);
+		value = new Factory[] {EmeraldForItemsTrade(Items.ALLIUM, 9, 8, 4), ItemsForEmeraldsTrade(ModItems.ROYAL_JELLY, 5, 1, 5)};
+		map.put(5, value);
+		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(BEEKEEPER, map);
 	}
 
 	/**
 	 * Buying Items
 	 */
-	private static ItemListing EmeraldForItemsTrade(Item item, int count, int maxUses, int xpValue)
+	private static Factory EmeraldForItemsTrade(Item item, int count, int maxUses, int xpValue)
 	{
-		ItemListing ret = null;
-		try {
-			ret = (ItemListing) ctr1.newInstance(item, count, maxUses, xpValue);
-		}
-		catch (Exception e) {
-		}
-		return ret;
+		return new TradeOffers.BuyForOneEmeraldFactory(item, count, maxUses, xpValue);
 	}
 
 	/**
 	 * Selling Items
 	 */
-	private static ItemListing ItemsForEmeraldsTrade(Item item, int cost, int count, int xpValue)
+	private static Factory ItemsForEmeraldsTrade(Item item, int cost, int count, int xpValue)
 	{
-		ItemListing ret = null;
-		try {
-			ret = (ItemListing) ctr2.newInstance(item, cost, count, xpValue);
-		}
-		catch (Exception e) {
-		}
-		return ret;
+		return new TradeOffers.SellItemFactory(item, cost, count, xpValue);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void setupLoot()
 	{
-		try {
-			String name = ASMAPI.mapField("f_147550_"); // GIFTS
-			Field field = GiveGiftToHero.class.getDeclaredField(name);
-			field.setAccessible(true);
-			Map<VillagerProfession, ResourceLocation> value = (Map<VillagerProfession, ResourceLocation>) field.get(null);
-			value.put(BEEKEEPER, new ResourceLocation(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		VillagerInteractionRegistries.registerGiftLootTable(BEEKEEPER, new Identifier(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
 	}
 }

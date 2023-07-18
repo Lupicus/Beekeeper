@@ -1,39 +1,47 @@
 package com.lupicus.bk.item;
 
+import com.lupicus.bk.Main;
 import com.lupicus.bk.block.ModBlocks;
 
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+
 
 public class ModItems
 {
-	public static final Item BEE_POLLEN = new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).fast().effect(() -> new MobEffectInstance(MobEffects.LEVITATION, 40, 6), 1.0F).build()).stacksTo(16));
-	public static final Item ROYAL_JELLY = new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).saturationMod(1.0F).fast().effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9600, 0), 1.0F).alwaysEat().build()).stacksTo(16));
-	public static final Item HONEY_EXTRACTOR = new BlockItem(ModBlocks.HONEY_EXTRACTOR, new Item.Properties());
+	public static final Item BEE_POLLEN = new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(3).saturationModifier(0.6F).snack().statusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 6), 1.0F).build()).maxCount(16));
+	public static final Item ROYAL_JELLY = new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(7).saturationModifier(1.0F).snack().statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 9600, 0), 1.0F).alwaysEdible().build()).maxCount(16));
+	public static final Item HONEY_EXTRACTOR = new BlockItem(ModBlocks.HONEY_EXTRACTOR, new FabricItemSettings());
 
-	public static void register(IForgeRegistry<Item> forgeRegistry)
+	public static void register()
 	{
-		forgeRegistry.register("bee_pollen", BEE_POLLEN);
-		forgeRegistry.register("royal_jelly", ROYAL_JELLY);
-		forgeRegistry.register("honey_extractor", HONEY_EXTRACTOR);
+		register("bee_pollen", BEE_POLLEN);
+		register("royal_jelly", ROYAL_JELLY);
+		register("honey_extractor", HONEY_EXTRACTOR);
 	}
 
-	public static void setupTabs(BuildCreativeModeTabContentsEvent event)
+	public static void setupTabs()
 	{
-		if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
-		{
-			event.accept(BEE_POLLEN);
-			event.accept(ROYAL_JELLY);
-		}
-		else if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
-		{
-			event.accept(HONEY_EXTRACTOR);
-		}
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((c) -> {
+			c.add(BEE_POLLEN);
+			c.add(ROYAL_JELLY);
+		});
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((c) -> {
+			c.add(HONEY_EXTRACTOR);
+		});
+	}
+
+	private static void register(String key, Item item)
+	{
+		Registry.register(Registries.ITEM, new Identifier(Main.MODID, key), item);
 	}
 }
