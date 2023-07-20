@@ -1,5 +1,8 @@
 package com.lupicus.bk.block;
 
+import com.lupicus.bk.tileentity.HoneyExtractorTileEntity;
+
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -11,7 +14,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class HoneyExtractor extends RotateContainerBase
 {
-	protected HoneyExtractor(Properties builder) {
+	protected HoneyExtractor(FabricBlockSettings builder) {
 		super(builder);
 		registerDefaultState(getStateDefinition().any().setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
@@ -33,6 +36,6 @@ public class HoneyExtractor extends RotateContainerBase
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return null;
+		return new HoneyExtractorTileEntity(pos, state);
 	}
 }

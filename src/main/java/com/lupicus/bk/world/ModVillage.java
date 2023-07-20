@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 import com.lupicus.bk.Main;
 
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -16,7 +18,6 @@ import net.minecraft.world.level.levelgen.structure.pools.LegacySinglePoolElemen
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
-import net.minecraftforge.coremod.api.ASMAPI;
 
 public class ModVillage
 {
@@ -38,7 +39,8 @@ public class ModVillage
 		StructurePoolElement piece = funpiece.apply(Projection.RIGID);
 
 		try {
-			String name = ASMAPI.mapField("f_210560_"); // templates
+			MappingResolver mapper = FabricLoader.getInstance().getMappingResolver();
+			String name = mapper.mapFieldName("intermediary", "net.minecraft.class_3785", "field_16680", "Lit/unimi/dsi/fastutil/objects/ObjectArrayList;"); // templates
 			Field field = StructureTemplatePool.class.getDeclaredField(name);
 			field.setAccessible(true);
 
