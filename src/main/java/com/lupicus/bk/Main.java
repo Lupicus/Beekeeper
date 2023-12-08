@@ -6,6 +6,7 @@ import com.lupicus.bk.block.ModBlocks;
 import com.lupicus.bk.entity.ModProfessions;
 import com.lupicus.bk.item.ModItems;
 import com.lupicus.bk.sound.ModSounds;
+import com.lupicus.bk.tileentity.ModTileEntities;
 import com.lupicus.bk.village.ModPOI;
 import com.lupicus.bk.world.ModVillage;
 
@@ -47,6 +48,8 @@ public class Main
 	    		ModBlocks.register(event.getForgeRegistry());
 	    	else if (key.equals(ForgeRegistries.Keys.ITEMS))
 	    		ModItems.register(event.getForgeRegistry());
+	    	else if (key.equals(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES))
+	    		ModTileEntities.register(event.getForgeRegistry());
 	    	else if (key.equals(ForgeRegistries.Keys.VILLAGER_PROFESSIONS))
 	    		ModProfessions.register(event.getForgeRegistry());
 	    	else if (key.equals(ForgeRegistries.Keys.POI_TYPES))

@@ -1,5 +1,8 @@
 package com.lupicus.bk.block;
 
+import com.lupicus.bk.tileentity.HoneyExtractorTileEntity;
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -11,6 +14,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class HoneyExtractor extends RotateContainerBase
 {
+	public static final MapCodec<HoneyExtractor> CODEC = simpleCodec(HoneyExtractor::new);
+
+	@Override
+	protected MapCodec<HoneyExtractor> codec() {
+		return CODEC;
+	}
+
 	protected HoneyExtractor(Properties builder) {
 		super(builder);
 		registerDefaultState(getStateDefinition().any().setValue(HORIZONTAL_FACING, Direction.NORTH));
@@ -33,6 +43,6 @@ public class HoneyExtractor extends RotateContainerBase
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return null;
+		return new HoneyExtractorTileEntity(pos, state);
 	}
 }

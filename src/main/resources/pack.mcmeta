@@ -3,6 +3,8 @@
         "description": {
             "text": "Beekeeper resources"
         },
-        "pack_format": 15
+        "pack_format": 22,
+        "forge:resource_pack_format": 22,
+        "forge:data_pack_format": 26
     }
 }
