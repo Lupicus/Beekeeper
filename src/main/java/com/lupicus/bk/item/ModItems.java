@@ -29,6 +29,11 @@ public class ModItems
 		register("honey_extractor", HONEY_EXTRACTOR);
 	}
 
+	private static void register(String key, Item item)
+	{
+		Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Main.MODID, key), item);
+	}
+
 	public static void setupTabs()
 	{
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register((c) -> {
@@ -38,10 +43,5 @@ public class ModItems
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register((c) -> {
 			c.accept(HONEY_EXTRACTOR);
 		});
-	}
-
-	private static void register(String key, Item item)
-	{
-		Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Main.MODID, key), item);
 	}
 }

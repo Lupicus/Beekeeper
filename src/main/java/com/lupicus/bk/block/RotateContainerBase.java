@@ -1,6 +1,5 @@
 package com.lupicus.bk.block;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -13,7 +12,7 @@ public abstract class RotateContainerBase extends BaseEntityBlock
 {
 	public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-	protected RotateContainerBase(FabricBlockSettings builder) {
+	protected RotateContainerBase(Properties builder) {
 		super(builder);
 	}
 
