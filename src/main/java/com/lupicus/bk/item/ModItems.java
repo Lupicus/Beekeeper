@@ -3,7 +3,6 @@ package com.lupicus.bk.item;
 import com.lupicus.bk.Main;
 import com.lupicus.bk.block.ModBlocks;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,13 +13,13 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-
+import net.minecraft.world.item.Item.Properties;
 
 public class ModItems
 {
-	public static final Item BEE_POLLEN = new Item(new FabricItemSettings().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).fast().effect(new MobEffectInstance(MobEffects.LEVITATION, 40, 6), 1.0F).build()).maxCount(16));
-	public static final Item ROYAL_JELLY = new Item(new FabricItemSettings().food(new FoodProperties.Builder().nutrition(7).saturationMod(1.0F).fast().effect(new MobEffectInstance(MobEffects.ABSORPTION, 9600, 0), 1.0F).alwaysEat().build()).maxCount(16));
-	public static final Item HONEY_EXTRACTOR = new BlockItem(ModBlocks.HONEY_EXTRACTOR, new FabricItemSettings());
+	public static final Item BEE_POLLEN = new Item(new Properties().food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.6F).fast().effect(new MobEffectInstance(MobEffects.LEVITATION, 40, 6), 1.0F).build()).stacksTo(16));
+	public static final Item ROYAL_JELLY = new Item(new Properties().food(new FoodProperties.Builder().nutrition(7).saturationModifier(1.0F).fast().effect(new MobEffectInstance(MobEffects.ABSORPTION, 9600, 0), 1.0F).alwaysEdible().build()).stacksTo(16));
+	public static final Item HONEY_EXTRACTOR = new BlockItem(ModBlocks.HONEY_EXTRACTOR, new Properties());
 
 	public static void register()
 	{
