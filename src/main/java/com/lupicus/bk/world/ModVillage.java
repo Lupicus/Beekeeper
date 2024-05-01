@@ -16,7 +16,6 @@ import net.minecraft.world.level.levelgen.structure.pools.LegacySinglePoolElemen
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
-import net.minecraftforge.coremod.api.ASMAPI;
 
 public class ModVillage
 {
@@ -38,8 +37,7 @@ public class ModVillage
 		StructurePoolElement piece = funpiece.apply(Projection.RIGID);
 
 		try {
-			String name = ASMAPI.mapField("f_210560_"); // templates
-			Field field = StructureTemplatePool.class.getDeclaredField(name);
+			Field field = StructureTemplatePool.class.getDeclaredField("templates");
 			field.setAccessible(true);
 
 			List<StructurePoolElement> list = (List<StructurePoolElement>) field.get(pattern);
