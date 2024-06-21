@@ -30,7 +30,7 @@ public class ModItems
 
 	private static void register(String key, Item item)
 	{
-		Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Main.MODID, key), item);
+		Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MODID, key), item);
 	}
 
 	public static void setupTabs()

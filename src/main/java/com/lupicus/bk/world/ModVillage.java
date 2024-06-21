@@ -31,7 +31,7 @@ public class ModVillage
 
 		Registry<StructureTemplatePool> reg = opt.get();
 
-		StructureTemplatePool pattern = reg.get(new ResourceLocation("minecraft:village/plains/houses"));
+		StructureTemplatePool pattern = reg.get(ResourceLocation.parse("minecraft:village/plains/houses"));
 		if (pattern == null)
 			return;
 

@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 
 public class ModPOI
 {
-	public static final ResourceKey<PoiType> BEEKEEPER_KEY = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(Main.MODID, "beekeeper"));
+	public static final ResourceKey<PoiType> BEEKEEPER_KEY = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, ResourceLocation.fromNamespaceAndPath(Main.MODID, "beekeeper"));
 	public static final PoiType BEEKEEPER = create(BEEKEEPER_KEY, ModBlocks.HONEY_EXTRACTOR, 1, 1);
 
 	private static PoiType create(ResourceKey<PoiType> key, Block block, int maxFree, int proximity)

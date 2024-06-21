@@ -53,7 +53,7 @@ public class ModProfessions
 
 	private static ResourceLocation makeKey(VillagerProfession prof)
 	{
-		return new ResourceLocation(Main.MODID, prof.name());
+		return ResourceLocation.fromNamespaceAndPath(Main.MODID, prof.name());
 	}
 
 	static void setupTrades()
@@ -91,6 +91,6 @@ public class ModProfessions
 
 	private static void setupLoot()
 	{
-		VillagerInteractionRegistries.registerGiftLootTable(BEEKEEPER, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift")));
+		VillagerInteractionRegistries.registerGiftLootTable(BEEKEEPER, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift")));
 	}
 }

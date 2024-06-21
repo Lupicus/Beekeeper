@@ -21,6 +21,6 @@ public class ModBlocks
 
 	private static void register(String key, Block block)
 	{
-		Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(Main.MODID, key), block);
+		Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(Main.MODID, key), block);
 	}
 }

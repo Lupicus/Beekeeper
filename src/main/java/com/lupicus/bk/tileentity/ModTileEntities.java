@@ -19,6 +19,6 @@ public class ModTileEntities
 
 	private static void register(String key, BlockEntityType<?> type)
 	{
-		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(Main.MODID, key), type);
+		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Main.MODID, key), type);
 	}
 }
