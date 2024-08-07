@@ -57,7 +57,7 @@ public class ModProfessions
 
 	private static ResourceLocation makeKey(VillagerProfession prof)
 	{
-		return new ResourceLocation(Main.MODID, prof.name());
+		return ResourceLocation.fromNamespaceAndPath(Main.MODID, prof.name());
 	}
 
 	static void setupTrades()
@@ -140,7 +140,7 @@ public class ModProfessions
 			Field field = GiveGiftToHero.class.getDeclaredField("GIFTS");
 			field.setAccessible(true);
 			Map<VillagerProfession, ResourceLocation> value = (Map<VillagerProfession, ResourceLocation>) field.get(null);
-			value.put(BEEKEEPER, new ResourceLocation(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
+			value.put(BEEKEEPER, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
