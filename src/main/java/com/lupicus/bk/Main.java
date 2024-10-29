@@ -26,9 +26,9 @@ public class Main
 {
     public static final String MODID = "bk";
 
-    public Main()
+    public Main(FMLJavaModLoadingContext context)
     {
-    	FMLJavaModLoadingContext.get().getModEventBus().register(this);
+    	context.getModEventBus().register(this);
     }
 
 	@SubscribeEvent

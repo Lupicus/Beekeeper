@@ -6,12 +6,8 @@
     "##"
   ],
   "key": {
-    "#": {
-      "tag": "minecraft:planks"
-    },
-    "@": {
-      "item": "minecraft:honeycomb"
-    }
+    "#": "#minecraft:planks",
+    "@": "minecraft:honeycomb"
   },
   "result": {
     "count": 1,

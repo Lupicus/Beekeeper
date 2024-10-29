@@ -19,6 +19,6 @@ public class ModSounds
 
 	public static void register(IForgeRegistry<SoundEvent> registry)
 	{
-		registry.register(ENTITY_VILLAGER_WORK_BEEKEEPER.getLocation(), ENTITY_VILLAGER_WORK_BEEKEEPER);
+		registry.register(ENTITY_VILLAGER_WORK_BEEKEEPER.location(), ENTITY_VILLAGER_WORK_BEEKEEPER);
 	}
 }

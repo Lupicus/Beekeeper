@@ -23,13 +23,13 @@ public class ModVillage
 	public static void updatePools(MinecraftServer server)
 	{
 		RegistryAccess regs = server.registryAccess();
-		Optional<Registry<StructureTemplatePool>> opt = regs.registry(Registries.TEMPLATE_POOL);
+		Optional<Registry<StructureTemplatePool>> opt = regs.lookup(Registries.TEMPLATE_POOL);
 		if (opt.isEmpty())
 			return;
 
 		Registry<StructureTemplatePool> reg = opt.get();
 
-		StructureTemplatePool pattern = reg.get(ResourceLocation.parse("minecraft:village/plains/houses"));
+		StructureTemplatePool pattern = reg.getValue(ResourceLocation.parse("minecraft:village/plains/houses"));
 		if (pattern == null)
 			return;
 
