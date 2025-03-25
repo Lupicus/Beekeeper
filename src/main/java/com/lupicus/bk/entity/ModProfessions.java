@@ -16,6 +16,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -30,30 +32,34 @@ import net.minecraft.world.level.block.Blocks;
 
 public class ModProfessions
 {
-	public static final VillagerProfession BEEKEEPER = create("beekeeper", ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
+	private static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = makeKey("beekeeper");
+	public static final VillagerProfession BEEKEEPER = create(BEEKEEPER_KEY, ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
 
 	@SuppressWarnings("unused")
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, SoundEvent event)
+	private static VillagerProfession create(ResourceKey<VillagerProfession> key, ResourceKey<PoiType> type, SoundEvent event)
 	{
 		return create(key, type, ImmutableSet.of(), ImmutableSet.of(), event);
 	}
 
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
+	private static VillagerProfession create(ResourceKey<VillagerProfession> key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
 	{
 		Predicate<Holder<PoiType>> pred = (h) -> h.is(type);
-		return new VillagerProfession(key, pred, pred, items, blocks, event);
+		ResourceLocation res = key.location();
+		MutableComponent comp = Component.translatable("entity." + res.getNamespace() + ".villager." + res.getPath());
+		return new VillagerProfession(comp, pred, pred, items, blocks, event);
 	}
 
 	public static void register()
 	{
-		Registry.register(BuiltInRegistries.VILLAGER_PROFESSION, makeKey(BEEKEEPER), BEEKEEPER);
+		Registry.register(BuiltInRegistries.VILLAGER_PROFESSION, BEEKEEPER_KEY, BEEKEEPER);
 		setupTrades();
 		setupLoot();
 	}
 
-	private static ResourceLocation makeKey(VillagerProfession prof)
+	private static ResourceKey<VillagerProfession> makeKey(String name)
 	{
-		return ResourceLocation.fromNamespaceAndPath(Main.MODID, prof.name());
+		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
+		return ResourceKey.create(Registries.VILLAGER_PROFESSION, res);
 	}
 
 	static void setupTrades()
@@ -70,7 +76,7 @@ public class ModProfessions
 		map.put(4, value);
 		value = new ItemListing[] {EmeraldForItemsTrade(Items.ALLIUM, 9, 8, 30), ItemsForEmeraldsTrade(ModItems.ROYAL_JELLY, 5, 1, 30)};
 		map.put(5, value);
-		VillagerTrades.TRADES.put(BEEKEEPER, map);
+		VillagerTrades.TRADES.put(BEEKEEPER_KEY, map);
 	}
 
 	/**
@@ -91,6 +97,6 @@ public class ModProfessions
 
 	private static void setupLoot()
 	{
-		VillagerInteractionRegistries.registerGiftLootTable(BEEKEEPER, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift")));
+		VillagerInteractionRegistries.registerGiftLootTable(BEEKEEPER_KEY, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift")));
 	}
 }

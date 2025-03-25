@@ -1,5 +1,5 @@
 {
-	"entity.minecraft.villager.beekeeper": "คนเลี้ยงผึ้ง",
+	"entity.bk.villager.beekeeper": "คนเลี้ยงผึ้ง",
 	"subtitles.entity.villager.bk.work_beekeeper": "คนเลี้ยงผึ้งทำงาน",
 	"block.bk.honey_extractor": "เครื่องสกัดน้ำผึ้ง",
 	"item.bk.bee_pollen": "เกสรผึ้ง",

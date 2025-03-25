@@ -17,11 +17,11 @@ public class Main implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
+		ModSounds.register();
 		ModBlocks.register();
 		ModItems.register();
 		ModTileEntities.register();
 		ModProfessions.register();
-		ModSounds.register();
 		ModItems.setupTabs();
 		ServerLifecycleEvents.SERVER_STARTING.register((s) -> ModVillage.updatePools(s));
 	}

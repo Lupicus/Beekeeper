@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ModTileEntities
 {
-	public static final BlockEntityType<HoneyExtractorTileEntity> HONEY_EXTRACTOR = FabricBlockEntityTypeBuilder.create(HoneyExtractorTileEntity::new, ModBlocks.HONEY_EXTRACTOR).build(null);
+	public static final BlockEntityType<HoneyExtractorTileEntity> HONEY_EXTRACTOR = FabricBlockEntityTypeBuilder.create(HoneyExtractorTileEntity::new, ModBlocks.HONEY_EXTRACTOR).build();
 
 	public static void register()
 	{
