@@ -1,5 +1,5 @@
 {
-	"entity.minecraft.villager.bk.beekeeper": "Пчеловод",
+	"entity.bk.villager.beekeeper": "Пчеловод",
 	"subtitles.entity.villager.bk.work_beekeeper": "Пчеловод работает",
 	"block.bk.honey_extractor": "Медогонка",
 	"item.bk.bee_pollen": "Пчелиная пыльца",

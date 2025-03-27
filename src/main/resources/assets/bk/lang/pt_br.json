@@ -1,5 +1,5 @@
 {
-	"entity.minecraft.villager.bk.beekeeper": "Apicultor",
+	"entity.bk.villager.beekeeper": "Apicultor",
 	"subtitles.entity.villager.bk.work_beekeeper": "Apicultor trabalha",
 	"block.bk.honey_extractor": "Extrator de Mel",
 	"item.bk.bee_pollen": "Pólen de Abelha",

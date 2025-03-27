@@ -1,0 +1,7 @@
+{
+	"entity.bk.villager.beekeeper": "Apicoltore",
+	"subtitles.entity.villager.bk.work_beekeeper": "L'apicoltore lavora",
+	"block.bk.honey_extractor": "Estrattore di miele",
+	"item.bk.bee_pollen": "Polline di api",
+	"item.bk.royal_jelly": "Pappa reale"
+}

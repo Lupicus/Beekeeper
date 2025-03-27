@@ -1,10 +1,10 @@
 package com.lupicus.bk.entity;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import com.lupicus.bk.Main;
@@ -15,6 +15,9 @@ import com.lupicus.bk.village.ModPOI;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -25,44 +28,45 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModProfessions
 {
-	public static final VillagerProfession BEEKEEPER = create("beekeeper", ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
-	private static Constructor<?> ctr1 = null;
-	private static Constructor<?> ctr2 = null;
+	private static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = makeKey("beekeeper");
+	public static final VillagerProfession BEEKEEPER = create(BEEKEEPER_KEY, ModPOI.BEEKEEPER_KEY, ImmutableSet.of(), ImmutableSet.of(Blocks.BEEHIVE), ModSounds.ENTITY_VILLAGER_WORK_BEEKEEPER);
 
 	@SuppressWarnings("unused")
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, SoundEvent event)
+	private static VillagerProfession create(ResourceKey<VillagerProfession> key, ResourceKey<PoiType> type, SoundEvent event)
 	{
 		return create(key, type, ImmutableSet.of(), ImmutableSet.of(), event);
 	}
 
-	private static VillagerProfession create(String key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
+	private static VillagerProfession create(ResourceKey<VillagerProfession> key, ResourceKey<PoiType> type, ImmutableSet<Item> items, ImmutableSet<Block> blocks, SoundEvent event)
 	{
 		Predicate<Holder<PoiType>> pred = (h) -> h.is(type);
-		return new VillagerProfession(key, pred, pred, items, blocks, event);
+		ResourceLocation res = key.location();
+		MutableComponent comp = Component.translatable("entity." + res.getNamespace() + ".villager." + res.getPath());
+		return new VillagerProfession(comp, pred, pred, items, blocks, event);
 	}
 
 	public static void register(IForgeRegistry<VillagerProfession> registry)
 	{
-		registry.register(makeKey(BEEKEEPER), BEEKEEPER);
+		registry.register(BEEKEEPER_KEY.location(), BEEKEEPER);
 		setupTrades();
 		setupLoot();
 	}
 
-	private static ResourceLocation makeKey(VillagerProfession prof)
+	private static ResourceKey<VillagerProfession> makeKey(String name)
 	{
-		return ResourceLocation.fromNamespaceAndPath(Main.MODID, prof.name());
+		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, name);
+		return ResourceKey.create(Registries.VILLAGER_PROFESSION, res);
 	}
 
 	static void setupTrades()
 	{
-		findConstructors();
 		ItemListing[] value;
 		Int2ObjectMap<ItemListing[]> map = new Int2ObjectOpenHashMap<>();
 		value = new ItemListing[] {EmeraldForItemsTrade(Items.HONEY_BOTTLE, 4, 8, 2), EmeraldForItemsTrade(Items.OAK_LOG, 12, 8, 2), EmeraldForItemsTrade(Items.BIRCH_LOG, 12, 8, 2), ItemsForEmeraldsTrade(Items.BEEHIVE, 1, 1, 1), ItemsForEmeraldsTrade(Items.TORCH, 1, 16, 1)};
@@ -75,34 +79,7 @@ public class ModProfessions
 		map.put(4, value);
 		value = new ItemListing[] {EmeraldForItemsTrade(Items.ALLIUM, 9, 8, 30), ItemsForEmeraldsTrade(ModItems.ROYAL_JELLY, 5, 1, 30)};
 		map.put(5, value);
-		VillagerTrades.TRADES.put(BEEKEEPER, map);
-	}
-
-	private static void findConstructors()
-	{
-		for (Class<?> c : VillagerTrades.class.getDeclaredClasses())
-		{
-			if (c.getName().endsWith("$EmeraldForItems"))
-			{
-				try {
-					ctr1 = c.getDeclaredConstructor(ItemLike.class, int.class, int.class, int.class);
-					ctr1.setAccessible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			else if (c.getName().endsWith("$ItemsForEmeralds"))
-			{
-				try {
-					ctr2 = c.getDeclaredConstructor(Item.class, int.class, int.class, int.class);
-					ctr2.setAccessible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		VillagerTrades.TRADES.put(BEEKEEPER_KEY, map);
 	}
 
 	/**
@@ -110,13 +87,7 @@ public class ModProfessions
 	 */
 	private static ItemListing EmeraldForItemsTrade(Item item, int count, int maxUses, int xpValue)
 	{
-		ItemListing ret = null;
-		try {
-			ret = (ItemListing) ctr1.newInstance(item, count, maxUses, xpValue);
-		}
-		catch (Exception e) {
-		}
-		return ret;
+		return new VillagerTrades.EmeraldForItems(item, count, maxUses, xpValue);
 	}
 
 	/**
@@ -124,26 +95,17 @@ public class ModProfessions
 	 */
 	private static ItemListing ItemsForEmeraldsTrade(Item item, int cost, int count, int xpValue)
 	{
-		ItemListing ret = null;
-		try {
-			ret = (ItemListing) ctr2.newInstance(item, cost, count, xpValue);
-		}
-		catch (Exception e) {
-		}
-		return ret;
+		return new VillagerTrades.ItemsForEmeralds(item, cost, count, xpValue);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void setupLoot()
 	{
-		try {
-			Field field = GiveGiftToHero.class.getDeclaredField("GIFTS");
-			field.setAccessible(true);
-			Map<VillagerProfession, ResourceLocation> value = (Map<VillagerProfession, ResourceLocation>) field.get(null);
-			value.put(BEEKEEPER, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift"));
+		Map<ResourceKey<VillagerProfession>, ResourceKey<LootTable>> value = GiveGiftToHero.GIFTS;
+		if (value instanceof ImmutableMap)
+		{
+			value = new HashMap<>(value);
+			GiveGiftToHero.GIFTS = value;
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		value.put(BEEKEEPER_KEY, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Main.MODID, "gameplay/hero_of_the_village/beekeeper_gift")));
 	}
 }
