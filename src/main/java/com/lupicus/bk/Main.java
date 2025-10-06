@@ -16,6 +16,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -29,7 +30,7 @@ public class Main
     {
     }
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus = Bus.MOD)
     public static class ModEvents
     {
 	    @SubscribeEvent
@@ -50,15 +51,9 @@ public class Main
 	    	else if (key.equals(ForgeRegistries.Keys.SOUND_EVENTS))
 	    		ModSounds.register(event.getForgeRegistry());
 	    }
-
-	    @SubscribeEvent
-	    public static void onCreativeTab(BuildCreativeModeTabContentsEvent event)
-	    {
-	    	ModItems.setupTabs(event);
-	    }
     }
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+	@Mod.EventBusSubscriber(bus = Bus.FORGE)
 	public static class ForgeEvents
 	{
 		@SubscribeEvent
@@ -66,5 +61,11 @@ public class Main
 		{
 			ModVillage.updatePools(event.getServer());
 		}
+
+		@SubscribeEvent
+	    public static void onCreativeTab(BuildCreativeModeTabContentsEvent event)
+	    {
+	    	ModItems.setupTabs(event);
+	    }
 	}
 }
