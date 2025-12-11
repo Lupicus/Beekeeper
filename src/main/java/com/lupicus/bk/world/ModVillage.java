@@ -12,7 +12,7 @@ import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.levelgen.structure.pools.LegacySinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -31,7 +31,7 @@ public class ModVillage
 
 		Registry<StructureTemplatePool> reg = opt.get();
 
-		StructureTemplatePool pattern = reg.getValue(ResourceLocation.parse("minecraft:village/plains/houses"));
+		StructureTemplatePool pattern = reg.getValue(Identifier.parse("minecraft:village/plains/houses"));
 		if (pattern == null)
 			return;
 

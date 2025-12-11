@@ -6,7 +6,7 @@ import com.lupicus.bk.block.ModBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ModTileEntities
@@ -20,6 +20,6 @@ public class ModTileEntities
 
 	private static void register(String name, BlockEntityType<?> type)
 	{
-		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Main.MODID, name), type);
+		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(Main.MODID, name), type);
 	}
 }

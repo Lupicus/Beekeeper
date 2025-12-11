@@ -4,7 +4,7 @@ import com.lupicus.bk.Main;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 public class ModSounds
@@ -13,7 +13,7 @@ public class ModSounds
 
 	private static SoundEvent create(String key)
 	{
-		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, key);
+		Identifier res = Identifier.fromNamespaceAndPath(Main.MODID, key);
 		SoundEvent ret = SoundEvent.createVariableRangeEvent(res);
 		return ret;
 	}

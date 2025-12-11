@@ -5,8 +5,8 @@ import java.util.function.Function;
 import com.lupicus.bk.Main;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -23,7 +23,7 @@ public class ModBlocks
 
 	private static Block register(String name, Function<Properties, Block> func, Properties prop)
 	{
-		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
+		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(Main.MODID, name));
 		return Blocks.register(key, func, prop);
 	}
 }
