@@ -8,8 +8,8 @@ import com.lupicus.bk.Main;
 import com.lupicus.bk.block.ModBlocks;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -38,7 +38,7 @@ public class ModItems
 
 	private static Item register(String name, Function<Properties, Item> func, Properties prop)
 	{
-		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
+		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Main.MODID, name));
 		return Items.registerItem(key, func, prop);
 	}
 

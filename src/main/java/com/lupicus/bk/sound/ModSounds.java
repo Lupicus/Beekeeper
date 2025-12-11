@@ -2,7 +2,7 @@ package com.lupicus.bk.sound;
 
 import com.lupicus.bk.Main;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -12,7 +12,7 @@ public class ModSounds
 
 	private static SoundEvent create(String key)
 	{
-		ResourceLocation res = ResourceLocation.fromNamespaceAndPath(Main.MODID, key);
+		Identifier res = Identifier.fromNamespaceAndPath(Main.MODID, key);
 		SoundEvent ret = SoundEvent.createVariableRangeEvent(res);
 		return ret;
 	}
